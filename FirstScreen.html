@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Star Wars RPG Game</title>
+    <!-- Reset and External Stylesheet -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+<!-- Bootstrap & JQuery CDN -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body background=assets/images/Background.jpg>
+    <!-- the select player character screen -->
+    <div id="firstScreen" class="container-fluid animated zoomIn bounceOut">
+        <img id="title" class="img-fluid" src="./assets/images/StarWarsLogo.png" alt="logo" />
+        <br>
+        <br>
+        <h1>Pick your hero</h1>
+        <br>
+        <div id="game" class="ctr container card-deck">
+        </div>
+    </div>
+    <div class="character-images">
+    <img src="assets/images/LukeSkywalker.jpg" class="img-fluid rounded float-left">
+    <img src="assets/images/DarthVader.jpg" class="img-fluid rounded float-right">
+    <img src="assets/images/R2D2.jpg" class="img-fluid rounded float-right">
+    <img src="assets/images/KyloRen.jpg" class="img-fluid rounded float-right">
+    </div>
+<script src="assets/javascript/game.js"></script>
+</body>
+</html>
