@@ -108,15 +108,16 @@ function secondTowin() {
 /////////////////////* ON-CLICK FUNCTIONALITY */////////////////////////
 
 $(document).on("click", "img", function() {
+    console.log("onclick");
     if (!charSelected) {     // If the user has NOT selected a character
         for (var i = 0; i< charArray.length; i++) {   // For each character in the array...
             if (charArray[i].name === (this).id) {  // If that character's name is the same as the name that was set for it's id...
                 player = charArray[i]; // Player object becomes that Character
                 initializeCharAttack(player); // Generate the user's attack power
                 charArray.splice(i,1);  // Removes that character from the array
-                charSelected = true;        
-                firstTosecond();      // Page transitions from the first to the second page
-                $("#message").html("Choose your foe."); 
+                charSelected = true;  
+                window.location.href = "SecondScreen.html";
+                $("#message").text("Choose your foe."); // PROBLEM -> Code is not rendering because this class is from another html DOC!
             };
         };
         updateCards("#game", "#enemiesLeft");       
@@ -138,6 +139,11 @@ $(document).on("click", "img", function() {
         $("#enemyHealth").append("HP: " + enemy.healthPoints);
     };
 });
+
+
+//reset function
+
+
 
 
 
