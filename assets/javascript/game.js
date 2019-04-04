@@ -48,6 +48,14 @@ function initializeCharAttack(obj) {
     baseAttack = obj.attack;
 }
 
+// If player is alive or not
+function alive(obj) {
+    if (obj.healthPoints > 0) {
+        return true;
+    };
+    return false;
+};
+
 // If player has won or lost
 function winOrlose() {
     if (charArray.length == 0 && player.health > 0) {     // when you select a character, there are 3 enemies left in the array. If you kill all enemies, then the array length becomes 0
@@ -140,29 +148,39 @@ $(document).on("click", "img", function() {
     };
 });
 
+// Attack Button Onclick Event
+$(document).on("click", "#attackBtn", function() {
+    if(charSelected && enemySelected) {
+        if (alive(player) && alive(enemy)) {
+            player.attack(enemy);
+            enemy.returnDmg(player);
+            $("#playerHealth").html("Health: " + player.healthPoints);
+            $("#enemyHealth").html("Health: " + defender.healthPoints);
+            if (!alive(enemy)) {
+                $("#playerHealth").html("You have defeated the enemy.");
+                $("#message").html("Pick another enemy to battle!");
+            }
+            if (!isAlive(player)) {
+                $("#playerHealth").html("You have been defeated.");
+                window.location.href = "LoseScreen.html";
+                $(document).on("click", "#attackBtn", function () { // restarts game
+                    /// restart game here
+                });
+            }
+        }
+        if (!alive(enemy)) {
+            $("#enemyDiv").children().remove();
+            $("#enemyDiv").html("");
+            $("#enemyHealth").html("");
+            enemySelected = false;
+            if (winOrlose()) {
+                window.location.href = "WinScreen.html";
+            };
+        };
+    };
+});
 
-//reset function
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Runs when you load the webpage
 $(document).ready(function () {
     charInitialize();
     charCards("#game");

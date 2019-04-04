@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+
 body {
     color: silver !important;
     background-position: center;
     background-size: cover;
     min-height: 100vh;
     font-size: 1.1em !important;
-    font-family: 'Nunito', sans-serif !important;
+    font-family: 'Playfair Display', sans-serif !important;
 }
 
 .character-images {
@@ -74,3 +76,9 @@ h1 {
 .card {
     color: black;
 }
+
+.result-btn {
+    position: absolute;
+    left: 45%;
+}
+
