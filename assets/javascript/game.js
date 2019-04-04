@@ -10,7 +10,7 @@ let baseAttack = 0;     //Base attack strength is 0 for all characters until we 
 function char(name, hp, atk, returnDmg, img) {
     this.name = name;
     this.health = hp;
-    this.attack = atk;
+    this.attackStrength = atk;
     this.counterAtk = returnDmg;
     this.image = img;
 }
@@ -23,14 +23,14 @@ char.prototype.totalAttack = function () {
 
 // When the user attacks
 char.prototype.attack = function(obj) {
-    obj.health -= this.attack;          // health - damage dealt from current attack
-    $("#message").html("You attacked " + obj.name + "and dealt " + this.attack + " damage.");
+    obj.health -= this.attackStrength;          // health - damage dealt from current attack
+    $("#message").html("You attacked " + obj.name + " and dealt " + this.attackStrength + " damage.");
     this.totalAttack(); // increases character's total attack, or damage dealt
 }
 
 // The enemy's return damage onto the user
-char.prototype.returnDamage = function (obj) {
-    obj.health -= this.returnDmg; // health - damage dealth from enemy
+char.prototype.counterAtk = function(obj) {
+    obj.health -= this.counterAtk; // health - damage dealth from enemy
     $("#message").append("<br>" + this.name + " attacked you for " + this.counterAttackPower + " damage.");
 }
 
@@ -45,7 +45,7 @@ function charInitialize() {
 
 // Initialized character's base attack power becomes their set attack power
 function initializeCharAttack(obj) {
-    baseAttack = obj.attack;
+    baseAttack = obj.attackStrength;
 }
 
 // If player is alive or not
@@ -89,26 +89,26 @@ function updateCards(gameDiv, enemiesLeft) {
         $(enemiesLeft).append("<img />");
         $(enemiesLeft + " img:last-child").attr("id", charArray[i].name);
         $(enemiesLeft + " img:last-child").attr("src", charArray[i].image);
-        $(enemiesLeft + " img:last-child").attr("width", 150);
+        $(enemiesLeft + " img:last-child").attr("width", 193);
         $(enemiesLeft + " img:last-child").addClass("img-thumbnail");
     }
 }
 
 //Change from first screen to second screen
 function firstTosecond() {
-    $("#first").hide();
+    $("#first").empty();
     $("#second").show();
 };
 
 //Change from second screen to win screen
 function secondTowin() {
-    $("#second").hide();
+    $("#second").empty();
     $(".win-screen").show();
 };
 
 //Change from second screen to lose screen
 function secondTolose() {
-    $("#second").hide();
+    $("#second").empty();
     $(".lose-screen").show();
 };
 
@@ -118,7 +118,7 @@ function secondTolose() {
 $(document).on("click", "img", function() {
     if (charSelected && !enemySelected && (this.id != player.name)) {   // If user HAS selected character, enemy has NOT been selected, AND id matches with character's name
         for (var x = 0; x<charArray.length; x++) {  // For every element in char array
-            if (charArray[x].name === (this).id) {      
+            if (charArray[x].name == (this).id) {      
                 enemy = charArray[x];       // Enemy object becomes that enemy in the char Array
                 charArray.splice(x,1);      // Remove enemy from char array
                 enemySelected = true;
@@ -131,7 +131,7 @@ $(document).on("click", "img", function() {
     };
     if (!charSelected) {     // If the user has NOT selected a character
         for (var i = 0; i< charArray.length; i++) {   // For each character in the array...
-            if (charArray[i].name === (this).id) {  // If that character's name is the same as the name that was set for it's id...
+            if (charArray[i].name == (this).id) {  // If that character's name is the same as the name that was set for it's id...
                 player = charArray[i]; // Player object becomes that Character
                 initializeCharAttack(player); // Generate the user's attack power
                 charArray.splice(i,1);  // Removes that character from the array
@@ -152,7 +152,7 @@ $(document).on("click", "#attackBtn", function() {
     if(charSelected && enemySelected) {    // if the player and enemy has been selected
         if (alive(player) && alive(enemy)) {       // if player and enemy are BOTH alive
             player.attack(enemy);        // Player attacks the enemy
-            enemy.returnDmg(player);      // Enemy returns damage onto the player
+            enemy.counterAtk(player);      // Enemy returns damage onto the player
             $("#playerHealth").html("Health: " + player.health);       // Underneath player, new HP shows up
             $("#enemyHealth").html("Health: " + defender.health);      // Underneath enemy, new HP shows up
             if (!alive(enemy)) {       // if the enemy is not alive
