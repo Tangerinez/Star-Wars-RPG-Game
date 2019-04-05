@@ -6,6 +6,8 @@ let charSelected = false;       // A checker to see if user has picked a charact
 let enemySelected = false;      // A checker to see if user has picked an enemy to fight
 let baseAttack = 0;     //Base attack strength is 0 for all characters until we set it for each character
 
+//Generates random number after every click of the attack button
+
 // Stats for each character (Constructor)
 function char(name, hp, atk, returnDmg, img) {
     this.name = name;
@@ -18,20 +20,20 @@ function char(name, hp, atk, returnDmg, img) {
 // Each character's total attack is their attack strength + base attack. Each char is an object so we use .prototype on our char object so that character function aren't created for EACH character.
 // prototype allows us to associate function or property for each char from the SAME char function - also allows you to create your own methods!
 char.prototype.totalAttack = function () {
-    this.attack += baseAttack;     // current attack + last attack
+    this.attack += baseAttack;   // current attack + last attack
 }
 
 // When the user attacks
-char.prototype.attack = function(obj) {
+char.prototype.charAttack = function(obj) {
     obj.health -= this.attackStrength;          // health - damage dealt from current attack
     $("#message").html("You attacked " + obj.name + " and dealt " + this.attackStrength + " damage.");
     this.totalAttack(); // increases character's total attack, or damage dealt
 }
 
 // The enemy's return damage onto the user
-char.prototype.counterAtk = function(obj) {
+char.prototype.returnDamage = function(obj) {
     obj.health -= this.counterAtk; // health - damage dealth from enemy
-    $("#message").append("<br>" + this.name + " attacked you for " + this.counterAttackPower + " damage.");
+    $("#message").append("<br>" + this.name + " attacked you for " + this.counterAtk + " damage.");
 }
 
 // Call this function to initialize each character and their stats
@@ -96,19 +98,19 @@ function updateCards(gameDiv, enemiesLeft) {
 
 //Change from first screen to second screen
 function firstTosecond() {
-    $("#first").empty();
+    $("#first").hide();
     $("#second").show();
 };
 
 //Change from second screen to win screen
 function secondTowin() {
-    $("#second").empty();
+    $("#second").hide();
     $(".win-screen").show();
 };
 
 //Change from second screen to lose screen
 function secondTolose() {
-    $("#second").empty();
+    $("#second").hide();
     $(".lose-screen").show();
 };
 
@@ -151,18 +153,18 @@ $(document).on("click", "img", function() {
 $(document).on("click", "#attackBtn", function() {
     if(charSelected && enemySelected) {    // if the player and enemy has been selected
         if (alive(player) && alive(enemy)) {       // if player and enemy are BOTH alive
-            player.attack(enemy);        // Player attacks the enemy
-            enemy.counterAtk(player);      // Enemy returns damage onto the player
+            player.charAttack(enemy);        // Player attacks the enemy
+            enemy.returnDamage(player);      // Enemy returns damage onto the player
             $("#playerHealth").html("Health: " + player.health);       // Underneath player, new HP shows up
-            $("#enemyHealth").html("Health: " + defender.health);      // Underneath enemy, new HP shows up
+            $("#enemyHealth").html("Health: " + enemy.health);      // Underneath enemy, new HP shows up
             if (!alive(enemy)) {       // if the enemy is not alive
                 $("#playerHealth").html("You have defeated the enemy.");      // display under the player that you have defeated the enemy
                 $("#message").html("Pick another enemy to battle!");       // display under the player that you can now pick another enemy to battle
             }
-            if (!isAlive(player)) {     // if the player is not alive
+            if (!alive(player)) {     // if the player is not alive
                 $("#playerHealth").html("You have been defeated.");     // player has lost the game
-                secondTolose();    // shifts to lose screen
-                $(document).on("click", "#attackBtn", function () { // restarts game
+                setTimeout(secondTolose(),2);    // shifts to lose screen
+                $(document).on("click", "#restartBtn", function () { // restarts game
                     location.reload();
                 });
             }
@@ -173,8 +175,11 @@ $(document).on("click", "#attackBtn", function() {
             $("#enemyHealth").html("");
             enemySelected = false;       // no enemy selected
             if (winOrlose()) {    // if winOrlose = true
-                secondTowin();     // shift to win screen
+                setTimeout(secondTowin(), 2000);     // shift to win screen
             };
+            $(document).on("click", "#play-again-Btn", function () { // restarts game
+                location.reload();
+            });
         };
     };
 });
