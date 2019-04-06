@@ -25,23 +25,25 @@ char.prototype.totalAttack = function () {
 
 // When the user attacks
 char.prototype.charAttack = function(obj) {
-    obj.health -= this.attackStrength;          // health - damage dealt from current attack
-    $("#message").html("You attacked " + obj.name + " and dealt " + this.attackStrength + " damage.");
+    let randomAttack = Math.floor(Math.random()*this.attackStrength);   
+    obj.health -= randomAttack;         // health - damage dealt from current attack
+    $("#message").html("You attacked " + obj.name + " and dealt " + randomAttack + " damage.");
     this.totalAttack(); // increases character's total attack, or damage dealt
 }
 
 // The enemy's return damage onto the user
 char.prototype.returnDamage = function(obj) {
-    obj.health -= this.counterAtk; // health - damage dealth from enemy
-    $("#message").append("<br>" + this.name + " attacked you for " + this.counterAtk + " damage.");
+    let randomReturnDamage = Math.floor(Math.random()*this.counterAtk);
+    obj.health -= randomReturnDamage; // health - damage dealth from enemy
+    $("#message").append("<br>" + this.name + " attacked you for " + randomReturnDamage + " damage.");
 }
 
 // Call this function to initialize each character and their stats
 function charInitialize() {
-    let lukeSkywalker = new char("Luke Skywalker", 120, 20, 5, "assets/images/LukeSkywalker.jpg");
-    let darthVader = new char("Darth Vader", 250, 50, 20, "assets/images/DarthVader.jpg");
-    let R2D2 = new char("R2D2", 80, 75, 40, "assets/images/R2D2.jpg");
-    let kyloRen = new char("Kylo Ren", 150, 15, 5, "assets/images/KyloRen.jpg");
+    let lukeSkywalker = new char("Luke Skywalker", 120, 40, 20, "assets/images/LukeSkywalker.jpg");
+    let darthVader = new char("Darth Vader", 250, 50, 50, "assets/images/DarthVader.jpg");
+    let R2D2 = new char("R2D2", 80, 80, 80, "assets/images/R2D2.jpg");
+    let kyloRen = new char("Kylo Ren", 150, 30, 20, "assets/images/KyloRen.jpg");
     charArray.push(lukeSkywalker, darthVader, R2D2, kyloRen);
 }
 
@@ -75,9 +77,9 @@ function charCards(gameID) {
         $(gameID + " div:last-child").addClass("card"); // Adding Bootstrap "card" class <div> element that is last child of #game ID div
         $(gameID + " div:last-child").append("<img/>"); // Appends image tag - Everything underneath is within image tag
         $(gameID + " img:last-child").attr("id", charArray[i].name);    // ID of the character in the card
-        $(gameID + " img:last-child").attr("class", "card-img-top");   // Bootstrap class
+        $(gameID + " img:last-child").attr("class", "card-img-top");    // Bootstrap class 
         $(gameID + " img:last-child").attr("src", charArray[i].image);      // Image file
-        $(gameID + " img:last-child").attr("width", 150);         // Card width
+        $(gameID + " img:last-child").attr("width", 180);         // Card width
         $(gameID + " img:last-child").addClass("img-thumbnail");         // Bootstrap image thumbnail
         $(gameID + " div:last-child").append(charArray[i].name + "<br>");       // Add character name in thumbnail
         $(gameID + " div:last-child").append("Health: " + charArray[i].health);      // Add character health in thumbnail
@@ -91,8 +93,8 @@ function updateCards(gameDiv, enemiesLeft) {
         $(enemiesLeft).append("<img />");
         $(enemiesLeft + " img:last-child").attr("id", charArray[i].name);
         $(enemiesLeft + " img:last-child").attr("src", charArray[i].image);
-        $(enemiesLeft + " img:last-child").attr("width", 193);
-        $(enemiesLeft + " img:last-child").addClass("img-thumbnail");
+        $(enemiesLeft + " img:last-child").attr("width", 180);
+        $(enemiesLeft + " img:last-child").addClass("img-thumbnail");     
     }
 }
 
@@ -142,9 +144,10 @@ $(document).on("click", "img", function() {
                 $("#message").text("Choose your foe."); // PROBLEM -> Code is not rendering because this class is from another html DOC!
             };
         };
-        updateCards("#game", "#enemiesLeft");       
+        updateCards("#game", "#enemiesLeft");
         $("#player").append(this); // appends the selected player to the div
-        $("#player").append(player.name);    // appends player name to the player id div
+        $("#player").attr("class", "img-fluid"); 
+        $("#player").append("<br>" + player.name);    // appends player name to the player id div
         $("#playerHealth").append("HP: " + player.health); //
     };
 });
@@ -158,7 +161,7 @@ $(document).on("click", "#attackBtn", function() {
             $("#playerHealth").html("Health: " + player.health);       // Underneath player, new HP shows up
             $("#enemyHealth").html("Health: " + enemy.health);      // Underneath enemy, new HP shows up
             if (!alive(enemy)) {       // if the enemy is not alive
-                $("#playerHealth").html("You have defeated the enemy.");      // display under the player that you have defeated the enemy
+                $("#playerHealth").html("Health: " + player.health + "<br>You have defeated the enemy.");      // display under the player that you have defeated the enemy
                 $("#message").html("Pick another enemy to battle!");       // display under the player that you can now pick another enemy to battle
             }
             if (!alive(player)) {     // if the player is not alive
