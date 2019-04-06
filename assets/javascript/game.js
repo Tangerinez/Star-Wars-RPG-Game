@@ -79,7 +79,7 @@ function charCards(gameID) {
         $(gameID + " img:last-child").attr("id", charArray[i].name);    // ID of the character in the card
         $(gameID + " img:last-child").attr("class", "card-img-top");    // Bootstrap class 
         $(gameID + " img:last-child").attr("src", charArray[i].image);      // Image file
-        $(gameID + " img:last-child").attr("width", 180);         // Card width
+        $(gameID + " img:last-child").attr("width", 150);         // Card width
         $(gameID + " img:last-child").addClass("img-thumbnail");         // Bootstrap image thumbnail
         $(gameID + " div:last-child").append(charArray[i].name + "<br>");       // Add character name in thumbnail
         $(gameID + " div:last-child").append("Health: " + charArray[i].health);      // Add character health in thumbnail
@@ -93,7 +93,7 @@ function updateCards(gameDiv, enemiesLeft) {
         $(enemiesLeft).append("<img />");
         $(enemiesLeft + " img:last-child").attr("id", charArray[i].name);
         $(enemiesLeft + " img:last-child").attr("src", charArray[i].image);
-        $(enemiesLeft + " img:last-child").attr("width", 180);
+        $(enemiesLeft + " img:last-child").attr("width", 150);
         $(enemiesLeft + " img:last-child").addClass("img-thumbnail");     
     }
 }
